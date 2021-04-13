@@ -1,0 +1,25 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2017", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@nitro-assignment/api-interfaces": ["libs/api-interfaces/src/index.ts"],
+      "@nitro-assignment/core-data": ["libs/core-data/src/index.ts"],
+      "@nitro-assignment/material": ["libs/material/src/index.ts"],
+      "@env/*": ["apps/client/src/environments/*"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

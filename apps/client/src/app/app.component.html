@@ -1,0 +1,77 @@
+<div class="header">
+    <h1>Nitro Code Challenge</h1>
+</div>
+<div class="main-container">
+    <!--Expansion panel to display Posts in tree structure-->
+    <div class="item">
+        <mat-accordion>
+            <mat-expansion-panel *ngFor="let post of groupedPosts$ | async">
+                <mat-expansion-panel-header>
+                <mat-panel-title *ngIf="selectedCategory === 'Week'">
+                    Week {{post.name}}
+                </mat-panel-title>
+                <mat-panel-title *ngIf="selectedCategory !== 'Week'">
+                    {{post.name}}
+                </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-list>
+                <mat-list-item class="mat-elevation-z2" *ngFor="let postChild of post.children">
+                    <mat-card *ngIf="postChild" class="post-card" (click)="showPostDetails(postChild)">
+                        <mat-card-header>
+                            <mat-card-title class="post-title">
+                                <span class="post-title">
+                                    {{postChild.text}}
+                                </span>
+                            </mat-card-title>
+                            <div class="flex-row post-metadata">
+                                <mat-icon aria-hidden="false" aria-label="user">person</mat-icon>
+                                <span class="post-attr">{{postChild.author}}</span>
+                                <mat-icon aria-hidden="false" aria-label="location">add_location</mat-icon>
+                                <span class="post-attr">{{postChild.location}}</span>
+                            </div>
+                        </mat-card-header>
+                    </mat-card>
+                </mat-list-item>
+                </mat-list>  
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+    <!--Choose grouping for category-->
+    <div *ngIf="!hasData">
+        <h2>There was an issue with server communication. Please try again later.</h2>
+    </div>
+    <div *ngIf="hasData" class="item last">
+        <mat-radio-group
+        aria-labelledby="example-radio-group-label"
+        class="example-radio-group"
+        [(ngModel)]="selectedCategory">
+            <mat-radio-button class="example-radio-button" *ngFor="let category of postCategories" [value]="category" (change)="radioChange()">
+                {{category}}
+            </mat-radio-button>
+        </mat-radio-group>
+    </div>
+    <!--Update Post Form-->
+    <div *ngIf="model" class="update-form">
+        <h2>Update Post</h2>
+        <form (ngSubmit)="onSubmit()" #updateForm="ngForm">
+            <span id="text" name="posttext">{{model.text}}</span>
+            <br /><br />
+            <mat-form-field class="fullwidth" appearance="outline">
+              <mat-label>Author</mat-label>
+              <input matInput type="text" class="form-control" id="author"
+                     [(ngModel)]="model.author" name="author">
+            </mat-form-field>
+            <br /><br />
+            <mat-form-field class="fullwidth" appearance="outline">
+              <mat-label>Location</mat-label>
+              <input matInput type="text" class="form-control" id="location"
+                     [(ngModel)]="model.location" name="location">
+            </mat-form-field>
+            <br /><br />
+            <span id="text" name="posttext">{{model.time * 1000 | date}}</span>
+            <br /><br />
+            <button type="submit" mat-raised-button color="primary" [disabled]="!updateForm.form.valid">Submit</button>
+        </form>
+    </div>
+    <span *ngIf="submitted">Updated the post</span>
+</div>
